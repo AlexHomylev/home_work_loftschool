@@ -17,6 +17,25 @@
    isAllTrue([100, 2, 3, 4, 5], n => n < 10) // вернет false
  */
 function isAllTrue(array, fn) {
+  let x = 0;
+  let isarr = Array.isArray(array);
+  if (( array === 0 ) || (array.length <= 0) || (!isarr)) {
+      throw new Error("empty array");
+  } else if (typeof fn != 'function') {
+      throw new Error("fn is not a function");
+    } else {
+      for (let i = 0; i < array.length; i++) {
+        let elem = fn(array[i]);
+          if (elem === true) {
+              x++;
+          }
+      }
+    if (array.length === x) {
+        return true;
+    } else {
+        return false;
+    }
+  }
 }
 
 /*
@@ -36,6 +55,27 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
 function isSomeTrue(array, fn) {
+  let x = 0;
+  let isarr = Array.isArray(array);
+
+  if (( array === 0 ) || (array.length <= 0) || (!isarr)) {
+      throw new Error("empty array");
+  } else if (typeof fn != 'function') {
+      throw new Error("fn is not a function");
+  } else {
+      for (let i = 0; i < array.length; i++) {
+          let elem = fn(array[i]);
+          if (elem === true) {
+              x++;
+          }
+      }
+      if (x < 1) {
+          return false;
+      } else (x >= 1)
+      {
+          return true;
+      }
+  }
 }
 
 /*
@@ -50,6 +90,19 @@ function isSomeTrue(array, fn) {
    - fn не является функцией (с текстом "fn is not a function")
  */
 function returnBadArguments(fn) {
+  let badArg = [];
+  let arg = '';
+  if (typeof fn != 'function') {
+      throw new Error("fn is not a function");
+  }
+  for (let i = 1; i < arguments.length; i++) {
+      try {
+        arg = fn(arguments[i]);
+      } catch (e) {
+        badArg.push(arguments[i]);
+      }
+  }
+  return badArg;
 }
 
 /*
@@ -69,8 +122,52 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(num = 0) {
+  if (typeof num != 'number') {
+    throw new Error("number is not a number");
+  }
+
+  let obj = {
+    sum: function () {
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] === 0) {
+                throw new Error("division by 0");
+            }
+            num += arguments[i];
+        }
+        return num;
+    },
+    dif: function () {
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] === 0) {
+                throw new Error("division by 0");
+            }
+            num -= arguments[i];
+        }
+        return num;
+    },
+    div: function () {
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] === 0) {
+                throw new Error("division by 0");
+            }
+            num /= arguments[i];
+        }
+        return num;
+    },
+    mul: function () {
+        for (let i = 0; i < arguments.length; i++) {
+            if (arguments[i] === 0) {
+                throw new Error("division by 0");
+            }
+            num *= arguments[i];
+        }
+        return num;
+    }
 }
+return obj;
+}
+
 
 /* При решении задач, пострайтесь использовать отладчик */
 
