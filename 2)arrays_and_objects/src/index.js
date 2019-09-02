@@ -59,12 +59,14 @@ function reduce(array, fn, initial) {
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
 function upperProps(obj) {
-  let appProp = [];
-  for (prop in obj) {
-    appProp.push(`'${prop.toUpperCase()}'`);
+    let appProp = [];
+    for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)){
+      appProp.push(prop.toUpperCase());
+        }
+    }
+    return appProp;
   }
-  return appProp;
-}
 /*
  Задание 5 *:
 
