@@ -31,6 +31,7 @@
    const newDiv = document.createElement('div');
    homeworkContainer.appendChild(newDiv);
  */
+
 const homeworkContainer = document.querySelector('#homework-container');
 // текстовое поле для фильтрации cookie
 const filterNameInput = homeworkContainer.querySelector('#filter-name-input');
@@ -43,10 +44,40 @@ const addButton = homeworkContainer.querySelector('#add-button');
 // таблица со списком cookie
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
-filterNameInput.addEventListener('keyup', function() {
-    // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+addTable();
+
+filterNameInput.addEventListener("keyup", function() {
+  // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
 });
 
-addButton.addEventListener('click', () => {
-    // здесь можно обработать нажатие на кнопку "добавить cookie"
+addButton.addEventListener("click", () => {
+  let cookieName = addNameInput.value;
+  let cookieValue = addValueInput.value;
+
+  document.cookie = `${cookieName}=${cookieValue}`;
+
+  addTable();
 });
+
+function addTable() {
+  let cookies = document.cookie.split("; ").map(item => item.split("="));
+
+  listTable.innerHTML = "";
+
+  cookies.forEach(function(item) {
+    let tr = document.createElement("tr");
+    tr.className = "alert";
+    tr.innerHTML = `<th>${item[0]}</th><th>${
+      item[1]
+    }</th><th><button onclick="delete_cookie('${
+      item[0]
+    }')" >удалить</button></th>`;
+
+    listTable.append(tr);
+  });
+}
+
+function delete_cookie(name) {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
+  addTable();
+}
