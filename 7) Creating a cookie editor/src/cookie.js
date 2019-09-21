@@ -32,22 +32,23 @@
    homeworkContainer.appendChild(newDiv);
  */
 
-const homeworkContainer = document.querySelector('#homework-container');
+const homeworkContainer = document.querySelector("#homework-container");
 // текстовое поле для фильтрации cookie
-const filterNameInput = homeworkContainer.querySelector('#filter-name-input');
+const filterNameInput = homeworkContainer.querySelector("#filter-name-input");
 // текстовое поле с именем cookie
-const addNameInput = homeworkContainer.querySelector('#add-name-input');
+const addNameInput = homeworkContainer.querySelector("#add-name-input");
 // текстовое поле со значением cookie
-const addValueInput = homeworkContainer.querySelector('#add-value-input');
+const addValueInput = homeworkContainer.querySelector("#add-value-input");
 // кнопка "добавить cookie"
-const addButton = homeworkContainer.querySelector('#add-button');
+const addButton = homeworkContainer.querySelector("#add-button");
 // таблица со списком cookie
-const listTable = homeworkContainer.querySelector('#list-table tbody');
+const listTable = homeworkContainer.querySelector("#list-table tbody");
 
 addTable();
 
-filterNameInput.addEventListener("keyup", function() {
-  // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+let filterfunc = filterNameInput.addEventListener("keyup", function() {
+  let filterName = filterNameInput.value;
+  addTable(filterName);
 });
 
 addButton.addEventListener("click", () => {
@@ -59,12 +60,14 @@ addButton.addEventListener("click", () => {
   addTable();
 });
 
-function addTable() {
+function addTable(filterTread = '') {
   let cookies = document.cookie.split("; ").map(item => item.split("="));
 
   listTable.innerHTML = "";
 
   cookies.forEach(function(item) {
+
+      if(item[0].toLowerCase().includes(filterTread.toLowerCase()) || item[1].toLowerCase().includes(filterTread.toLowerCase())){
     let tr = document.createElement("tr");
     tr.className = "alert";
     tr.innerHTML = `<th>${item[0]}</th><th>${
@@ -74,6 +77,8 @@ function addTable() {
     }')" >удалить</button></th>`;
 
     listTable.append(tr);
+    };
+
   });
 }
 
@@ -81,3 +86,4 @@ function delete_cookie(name) {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
   addTable();
 }
+
